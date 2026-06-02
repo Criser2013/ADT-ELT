@@ -1,4 +1,30 @@
 services:
+  airflow:
+    image: criser2013/airflow:slim-3.2.2-python3.14
+    build:
+      context: .
+      dockerfile: airflow.Dockerfile
+      args:
+        AIRFLOW_VERSION: ${AIRFLOW_VERSION}
+    volumes:
+      - ./dags:/opt/airflow/dags
+    ports:
+      - 8080:8080
+    networks:
+      - dbt-network
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW_VAR_API_URL: dbt
+      AIRFLOW_VAR_API_ENDPOINT: /run-dbt
+      AIRFLOW_WEB_USERNAME: ${AIRFLOW_USERNAME}
+      AIRFLOW_WEB_PASSWORD: ${AIRFLOW_PASSWORD}
+      AIRFLOW_USER_EMAIL: ${AIRFLOW_USER_EMAIL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   dbt:
     image: python:3.13.5-slim-bullseye
     depends_on:
@@ -10,7 +36,8 @@ services:
       sleep infinity"
     working_dir: /app/dbt
     volumes:
-      - .:/app/dbt
+      - ./elt_adt:/app/dbt
+      - ./api:/app/api
     networks:
       - dbt-network
     environment:
