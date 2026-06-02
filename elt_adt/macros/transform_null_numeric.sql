@@ -1,4 +1,4 @@
-{% macro iqr_impute(column_name, relation) %}
+{%- macro iqr_impute(column_name, relation) -%}
 
 with stats as (
     select
@@ -27,5 +27,4 @@ select
     end as {{ column_name }}
 from {{ relation }} t
 cross join bounds b
-
-{% endmacro %}
+{%- endmacro -%}

@@ -1,6 +1,13 @@
 select
     *,
     case
+        when genero = 'M' then 1
+        else 0
+    end as genero,
+    {{ scale_values(wbc, 1000) }} as wbc,
+    {{ scale_values(plt, 1000) }} as plt,
+    {{ scale_values(saturacion_sangre, 100, 1) }} as saturacion_sangre,
+    case
         when greatest(
             coalesce(enfermedad_hematologica,0),
             coalesce(enfermedad_cardiaca,0),
