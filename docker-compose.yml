@@ -13,7 +13,14 @@ services:
       - .:/app/dbt
     networks:
       - dbt-network
-  
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_SCHEMA: ${DB_SCHEMA}
+
   postgres:
     image: postgres:18.4-alpine3.23
     environment:

@@ -1,12 +1,36 @@
 select
-    *,
+    id,
+    fumador,
+    bebedor,
+    proc_quirurgico_traumatismo,
+    inmovilidad_m_inferiores,
+    viaje_prolongado,
+    tep_tvp_previo,
+    malignidad,
+    disnea,
+    dolor_toracico,
+    tos,
+    hemoptisis,
+    sintomas_disautonomicos,
+    edema_m_inferiores,
+    crepitaciones,
+    sibilancias,
+    soplos,
+    derrame,
+    fiebre,
+    edad,
+    frecuencia_respiratoria,
+    frecuencia_cardiaca,
+    presion_sistolica,
+    presion_diastolica,
+    hb,
     case
         when genero = 'M' then 1
         else 0
     end as genero,
-    {{ scale_values(wbc, 1000) }} as wbc,
-    {{ scale_values(plt, 1000) }} as plt,
-    {{ scale_values(saturacion_sangre, 100, 1) }} as saturacion_sangre,
+    {{ scale_values("wbc", 1000) }},
+    {{ scale_values("plt", 1000) }},
+    {{ scale_values("saturacion_sangre", 100, 1) }},
     case
         when greatest(
             coalesce(enfermedad_hematologica,0),
@@ -26,5 +50,21 @@ select
             coalesce(enfermedad_hipertension_arterial,0)
         ) = 1 then 1
         else 0
-    end as otra_enfermedad
+    end as otra_enfermedad,
+    enfermedad_hematologica,
+    enfermedad_cardiaca,
+    enfermedad_endocrina,
+    enfermedad_gastrointestinal,
+    enfermedad_hepatopatia_cronica,
+    enfermedad_neurologica,
+    enfermedad_pulmonar,
+    enfermedad_renal,
+    enfermedad_trombofilia,
+    enfermedad_urologica,
+    enfermedad_vascular,
+    enfermedad_vih,
+    enfermedad_diabetes_mellitus,
+    enfermedad_coronaria,
+    enfermedad_hipertension_arterial,
+    tep
 from {{ ref('bronze_clean') }}
