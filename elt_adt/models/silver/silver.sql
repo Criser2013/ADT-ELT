@@ -24,13 +24,32 @@ select
     presion_sistolica,
     presion_diastolica,
     hb,
+    enfermedad_hematologica,
+    enfermedad_cardiaca,
+    enfermedad_endocrina,
+    enfermedad_gastrointestinal,
+    enfermedad_hepatopatia_cronica,
+    enfermedad_neurologica,
+    enfermedad_pulmonar,
+    enfermedad_renal,
+    enfermedad_trombofilia,
+    enfermedad_urologica,
+    enfermedad_vascular,
+    enfermedad_vih,
+    enfermedad_diabetes_mellitus,
+    enfermedad_coronaria,
+    enfermedad_hipertension_arterial,
+    tep,
+
     case
         when genero = 'M' then 1
         else 0
     end as genero,
+
     {{ scale_values("wbc", 1000) }},
     {{ scale_values("plt", 1000) }},
     {{ scale_values("saturacion_sangre", 100, 1) }},
+
     case
         when greatest(
             coalesce(enfermedad_hematologica,0),
@@ -50,21 +69,5 @@ select
             coalesce(enfermedad_hipertension_arterial,0)
         ) = 1 then 1
         else 0
-    end as otra_enfermedad,
-    enfermedad_hematologica,
-    enfermedad_cardiaca,
-    enfermedad_endocrina,
-    enfermedad_gastrointestinal,
-    enfermedad_hepatopatia_cronica,
-    enfermedad_neurologica,
-    enfermedad_pulmonar,
-    enfermedad_renal,
-    enfermedad_trombofilia,
-    enfermedad_urologica,
-    enfermedad_vascular,
-    enfermedad_vih,
-    enfermedad_diabetes_mellitus,
-    enfermedad_coronaria,
-    enfermedad_hipertension_arterial,
-    tep
-from {{ ref('bronze_clean') }}
+    end as otra_enfermedad
+from {{ ref('bronze') }}

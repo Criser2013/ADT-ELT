@@ -50,5 +50,5 @@ docker compose exec dbt dbt build
 
 \## Resultado
 
-Datos listos para ser utilizados en el entrenamiento de modelos de machine learning. Estos pueden ser revisados en el esquema `default` de la base de datos, más especificamente, la tabla `gold\_ml\_discretized`.
+Datos listos para ser utilizados en el entrenamiento de modelos de machine learning. Estos pueden ser revisados en el esquema `default_gold` de la base de datos, más especificamente, la tabla `gold\_ml\_discretized`.
 

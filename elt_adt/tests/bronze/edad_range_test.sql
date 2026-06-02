@@ -1,5 +1,5 @@
 select
     index,
-    Edad
+    "Edad"
 from {{ source('elt_adt', 'bronze_data')}}
-where Edad < 0 or Edad > 120
+where "Edad" < 0 or "Edad" > 120

@@ -1,6 +1,9 @@
 select
     id,
     genero,
+    otra_enfermedad,
+    tep,
+
     {{ transform_null_binary(ref("silver"), "fumador") }} as fumador,
     {{ transform_null_binary(ref("silver"), "bebedor") }} as bebedor,
     {{ transform_null_binary(ref("silver"), "proc_quirurgico_traumatismo") }} as proc_quirurgico_traumatismo,
@@ -28,7 +31,7 @@ select
     {{ transform_null_numeric(ref("silver"), "presion_diastolica") }} as presion_diastolica,
     {{ transform_null_numeric(ref("silver"), "hb") }} as hb,
     {{ transform_null_numeric(ref("silver"), "plt") }} as plt,
-    otra_enfermedad,
+
     coalesce(enfermedad_hematologica, 0) as enfermedad_hematologica,
     coalesce(enfermedad_cardiaca, 0) as enfermedad_cardiaca,
     coalesce(enfermedad_endocrina, 0) as enfermedad_endocrina,
@@ -43,6 +46,5 @@ select
     coalesce(enfermedad_vih, 0) as enfermedad_vih,
     coalesce(enfermedad_diabetes_mellitus, 0) as enfermedad_diabetes_mellitus,
     coalesce(enfermedad_coronaria, 0) as enfermedad_coronaria,
-    coalesce(enfermedad_hipertension_arterial, 0) as enfermedad_hipertension_arterial,
-    tep
+    coalesce(enfermedad_hipertension_arterial, 0) as enfermedad_hipertension_arterial
 from {{ ref("silver") }}

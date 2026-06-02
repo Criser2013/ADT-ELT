@@ -19,6 +19,23 @@ select
     soplos,
     derrame,
     fiebre,
+    otra_enfermedad,
+    enfermedad_hematologica,
+    enfermedad_cardiaca,
+    enfermedad_endocrina,
+    enfermedad_gastrointestinal,
+    enfermedad_hepatopatia_cronica,
+    enfermedad_neurologica,
+    enfermedad_pulmonar,
+    enfermedad_renal,
+    enfermedad_trombofilia,
+    enfermedad_urologica,
+    enfermedad_vascular,
+    enfermedad_vih,
+    enfermedad_diabetes_mellitus,
+    enfermedad_coronaria,
+    enfermedad_hipertension_arterial,
+    tep,
     
     {% set edad_int = [(0,20,0),(20,41,1),(41,61,2),(61,81,3)] %}
     {{ discretize_values("edad", edad_int, upper_value = 4) }} as edad,
@@ -45,24 +62,6 @@ select
     {{ discretize_values("hb", hb_int, 6, 9, 10) }} as hb,
 
     {% set plt_int = [(10000,50000,1),(50000,100000,2),(100000,150000,3),(150000,400000,4),(400000,500000,5),(500000,600000,6),(600000,700000,7)] %}
-    {{ discretize_values("plt", plt_int, 10000, 8, 9) }} as plt,
-
-    otra_enfermedad,
-    enfermedad_hematologica,
-    enfermedad_cardiaca,
-    enfermedad_endocrina,
-    enfermedad_gastrointestinal,
-    enfermedad_hepatopatia_cronica,
-    enfermedad_neurologica,
-    enfermedad_pulmonar,
-    enfermedad_renal,
-    enfermedad_trombofilia,
-    enfermedad_urologica,
-    enfermedad_vascular,
-    enfermedad_vih,
-    enfermedad_diabetes_mellitus,
-    enfermedad_coronaria,
-    enfermedad_hipertension_arterial,
-    tep
+    {{ discretize_values("plt", plt_int, 10000, 8, 9) }} as plt
 
 from {{ ref("gold_ml_without_na") }}

@@ -2,6 +2,9 @@ version: 2
 models:
   - name: gold_ml_without_na
     description: "This table contains silver data with null values replaced by the median or mode (depending of the field type) of the corresponding field. Also outliners were removed."
+    constraints:
+    - type: primary_key
+      columns: [id]
     columns:
       - name: id
         description: "The unique identifier for each record."

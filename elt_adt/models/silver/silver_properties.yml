@@ -2,6 +2,9 @@ version: 2
 models:
   - name: silver
     description: "This table contains the cleaned data from bronze layer where a new field was created, 'otra_enfermedad', a one hot encoding of all the diseases that a patient has."
+    constraints:
+    - type: primary_key
+      columns: [id]
     columns:
       - name: id
         description: "The unique identifier for each record."
