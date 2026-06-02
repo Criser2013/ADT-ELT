@@ -1,0 +1,296 @@
+version: 2
+models:
+  - name: gold_ml_discretized
+    description: "This table contains numeric fields discretized into intervals without null values. It is able to be used for machine learning."
+    columns:
+      - name: id
+        description: "The unique identifier for each record."
+        data_tests:
+          - not_null
+          - unique
+      - name: fiebre
+        description: "Indicates whether the person has a fever."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: edad
+        description: "The age of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 0
+              upper_bound: 4
+      - name: fumador
+        description: "Indicates whether the person is a smoker."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: bebedor
+        description: "Indicates whether the person is a drinker."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: genero
+        description: "This field indicates the patient's sex"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: proc_quirurgico_traumatismo
+        description: "Indicates whether the person has had a surgical procedure or trauma."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: inmovilidad_m_inferiores
+        description: "Indicates whether the person has immobility in the lower limbs."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: viaje_prolongado
+        description: "Indicates whether the person has had a prolonged trip."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: tep_tvp_previo
+        description: "Indicates whether the person has had a previous pulmonary embolism or deep vein thrombosis."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: malignidad
+        description: "Indicates whether the person has a malignancy."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: disnea
+        description: "Indicates whether the person has dyspnea."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: dolor_toracico
+        description: "Indicates whether the person has chest pain."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: tos
+        description: "Indicates whether the person has a cough."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: hemoptisis
+        description: "Indicates whether the person has hemoptysis."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: sintomas_disautonomicos
+        description: "Indicates whether the person has dysautonomic symptoms."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: edema_m_inferiores
+        description: "Indicates whether the person has edema in the lower limbs."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: crepitaciones
+        description: "Indicates whether the person has crepitations."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: sibilancias
+        description: "Indicates whether the person has wheezing."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: soplos
+        description: "Indicates whether the person has murmurs."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: derrame
+        description: "Indicates whether the person has a pleural effusion."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: fiebre
+        description: "Indicates whether the person has a temperature upper than 38ºC."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: plt
+        description: "The platelet count of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 9
+      - name: wbc
+        description: "The white blood cell count of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 8
+      - name: frecuencia_respiratoria
+        description: "The respiratory rate of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 11
+      - name: saturacion_sangre
+        description: "The blood oxygen saturation of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 12
+      - name: frecuencia_cardiaca
+        description: "The heart rate of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 10
+      - name: presion_sistolica
+        description: "The systolic blood pressure of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 10
+      - name: presion_diastolica
+        description: "The diastolic blood pressure of the person."
+        data_tests:
+          - not_null
+          - check_intervals:
+              id_field: id
+              lower_bound: 1
+              upper_bound: 10
+      - name: enfermedad_hematologica
+        description: "Indicates whether the person has a hematological disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_cardiaca
+        description: "Indicates whether the person has a cardiac disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_endocrina
+        description: "Indicates whether the person has an endocrine disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_gastrointestinal
+        description: "Indicates whether the person has a gastrointestinal disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_hepatopatia_cronica
+        description: "Indicates whether the person has a chronic liver disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_neurologica
+        description: "Indicates whether the person has a neurological disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_pulmonar
+        description: "Indicates whether the person has a pulmonary disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_renal
+        description: "Indicates whether the person has a renal disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_trombofilia
+        description: "Indicates whether the person has a thrombophilia."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_urologica
+        description: "Indicates whether the person has a urological disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_vascular
+        description: "Indicates whether the person has a vascular disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_vih
+        description: "Indicates whether the person has HIV."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_diabetes_mellitus
+        description: "Indicates whether the person has diabetes mellitus."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_coronaria
+        description: "Indicates whether the person has coronary artery disease."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: enfermedad_hipertension_arterial
+        description: "Indicates whether the person has arterial hypertension."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: tep
+        description: "Indicates whether the person has a pulmonary embolism."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
+      - name: otra_enfermedad
+        description: "A one hot encoding of all the diseases that a patient has."
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [1,0]
