@@ -1,0 +1,38 @@
+services:
+  dbt:
+    image: python:3.13.5-slim-bullseye
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      bash -c "
+      pip install dbt-core dbt-postgres --no-input &&
+      sleep infinity"
+    working_dir: /app/dbt
+    volumes:
+      - .:/app/dbt
+    networks:
+      - dbt-network
+  
+  postgres:
+    image: postgres:18.4-alpine3.23
+    environment:
+      POSTGRES_USER: dbt_user
+      POSTGRES_PASSWORD: dbt_password
+      POSTGRES_DB: dbt_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dbt_user -d dbt_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - dbt-network
+
+volumes:
+  postgres_data:
+
+networks:
+  dbt-network:
+    driver: bridge

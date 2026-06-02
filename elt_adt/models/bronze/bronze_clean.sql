@@ -52,4 +52,4 @@ select
     cast("Enfermedad coronaria" as int) as enfermedad_coronaria,
     cast("Hipertensión arterial" as int) as enfermedad_hipertension_arterial,
     TEP as tep
-from {{ source('dbt_core', 'bronze_data')}}
+from {{ source('elt_adt', 'bronze_data')}}
