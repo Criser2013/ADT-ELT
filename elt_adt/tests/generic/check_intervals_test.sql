@@ -3,6 +3,6 @@ select
     {{ id_field }},
     {{ column_name }}
 from {{ model }} t
-where {{ column_name }} < lower_bound
-   or {{ column_name }} > upper_bound
+where {{ column_name }} < {{ lower_bound }}
+   or {{ column_name }} > {{ upper_bound }}
 {%- endtest -%}
