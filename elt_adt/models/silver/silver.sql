@@ -70,4 +70,4 @@ select
         ) = 1 then 1
         else 0
     end as otra_enfermedad
-from {{ ref('bronze') }}
+from {{ ref('bronze_clean') }}

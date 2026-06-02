@@ -2,9 +2,9 @@ version: 2
 sources:
   - name: etl_adt
     database: dbt_db
-    schema: public
+    schema: bronze
     tables:
-      - name: bronze_data
+      - name: raw_data
         description: "This table contains the raw data ingested from an Excel spreadsheet. Be careful because it cotains unconsistent datatypes and values to many fields."
         columns:
           - name: "index"
