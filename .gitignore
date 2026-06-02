@@ -1,4 +1,4 @@
-
+*.xlsx
 target/
 dbt_packages/
 logs/
