@@ -50,5 +50,6 @@ select
     cast(VIH as int) as enfermedad_vih,
     cast("Diabetes Mellitus" as int) as enfermedad_diabetes_mellitus,
     cast("Enfermedad coronaria" as int) as enfermedad_coronaria,
-    cast("Hipertensión arterial" as int) as enfermedad_hipertension_arterial
-from {{ source('etl_adt', 'bronze_data')}}
+    cast("Hipertensión arterial" as int) as enfermedad_hipertension_arterial,
+    TEP as tep
+from {{ source('dbt_core', 'bronze_data')}}
