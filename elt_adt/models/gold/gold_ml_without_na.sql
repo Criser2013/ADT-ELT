@@ -42,4 +42,4 @@ select
     enfermedad_diabetes_mellitus,
     enfermedad_coronaria,
     enfermedad_hipertension_arterial,
-from {{ ref("silver_data") }}
+from {{ ref("silver") }}

@@ -130,12 +130,6 @@ models:
           - not_null
           - accepted_values:
               values: [1,0]
-      - name: fiebre
-        description: "Indicates whether the person has a temperature upper than 38ºC."
-        data_tests:
-          - not_null
-          - accepted_values:
-              values: [1,0]
       - name: plt
         description: "The platelet count of the person."
         data_tests:

@@ -1,6 +1,6 @@
 version: 2
 models:
-  - name: bronze_cleaned_data
+  - name: bronze_clean
     description: "This table contains the cleaned data from the bronze_data table. It has been cleaned and transformed to have consistent datatypes and values to many fields."
     columns:
       - name: id
@@ -108,11 +108,10 @@ models:
         data_tests:
           - accepted_values:
               values: [1,0]
-      - name: fiebre
-        description: "Indicates whether the person has a temperature upper than 38ºC."
-        data_tests:
-          - accepted_values:
-              values: [1,0]
+      - name: plt
+        description: "The platelet count of the person."
+      - name: wbc
+        description: "The white blood cell count of the person."
       - name: frecuencia_respiratoria
         description: "The respiratory rate of the person."
       - name: saturacion_sangre
