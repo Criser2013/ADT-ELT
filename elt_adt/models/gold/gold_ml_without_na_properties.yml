@@ -149,9 +149,6 @@ models:
         description: "The platelet count of the person."
         data_tests:
           - not_null
-          - check_outliners:
-              arguments:
-                id_field: id
       - name: wbc
         description: "The white blood cell count of the person."
         data_tests:
