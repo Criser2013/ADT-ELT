@@ -10,6 +10,54 @@ load_dotenv()
 app = Flask(__name__)
 
 
+@app.route("/compile-dbt", methods=["POST"])
+def compile_dbt():
+    """
+    Compile the dbt project.
+    """
+    try:
+        RES = run(
+            ["dbt", "compile", "--project-dir", "/app/dbt", "--profiles-dir", "/app/dbt"],
+            capture_output=True,
+            text=True,
+        )
+
+        # Raise an exception if the dbt command failed
+        RES.check_returncode()
+
+        return (
+            jsonify(
+                {
+                    "success": True,
+                    "message": "dbt compile executed successfully!",
+                    "output": RES.stdout,
+                }
+            ),
+            200,
+        )
+    except TimeoutExpired:
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "error": "dbt compile timed out",
+                    "output": RES.stderr,
+                }
+            ),
+            500,
+        )
+    except SubprocessError:
+        return (
+            jsonify(
+                {
+                    "success": False,
+                    "error": "Failed to execute dbt compile command",
+                    "output": RES.stderr,
+                }
+            ),
+            500,
+        )
+
 @app.route("/run-dbt", methods=["POST"])
 def run_dbt():
     """
@@ -17,7 +65,7 @@ def run_dbt():
     """
     try:
         RES = run(
-            ["dbt", "build", "--project-dir", "./dbt", "--profiles-dir", "./dbt"],
+            ["dbt", "build", "--project-dir", "/app/dbt", "--profiles-dir", "/app/dbt"],
             capture_output=True,
             text=True,
         )

@@ -17,27 +17,26 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW_VAR_API_URL: dbt
-      AIRFLOW_VAR_API_ENDPOINT: /run-dbt
+      AIRFLOW_VAR_LOAD_ENDPOINT: /load-dbt
+      AIRFLOW_VAR_RUN_ENDPOINT: /run-dbt
+      AIRFLOW_VAR_COMPILE_ENDPOINT: /compile-dbt
       AIRFLOW_WEB_USERNAME: ${AIRFLOW_USERNAME}
       AIRFLOW_WEB_PASSWORD: ${AIRFLOW_PASSWORD}
       AIRFLOW_USER_EMAIL: ${AIRFLOW_USER_EMAIL}
     depends_on:
       postgres:
         condition: service_healthy
+      dbt:
+        condition: service_healthy
 
   dbt:
-    image: python:3.13.5-slim-bullseye
+    image: criser2013/dbt:alpine3.21-python3.13.5
+    build:
+      context: .
+      dockerfile: ./api/backend.Dockerfile
     depends_on:
       postgres:
         condition: service_healthy
-    command: >
-      bash -c "
-      pip install dbt-core dbt-postgres --no-input &&
-      sleep infinity"
-    working_dir: /app/dbt
-    volumes:
-      - ./elt_adt:/app/dbt
-      - ./api:/app/api
     networks:
       - dbt-network
     environment:
