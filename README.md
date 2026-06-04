@@ -63,4 +63,4 @@ psql -W --username <DB_USERNAME> --dbname <DB_NAME>
 ```
 
 ## Outcome
-Data ready to be used on ML pipelines or for data analisys (`gold_without_na_values` model).
+Data ready to be used on ML pipelines or for data analysis (`gold_without_na_values` model).
