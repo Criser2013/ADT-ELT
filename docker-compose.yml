@@ -1,6 +1,6 @@
 services:
   airflow:
-    image: criser2013/airflow:slim-3.2.2-python3.14
+    image: criser2013/airflow:slim-3.2.2-python3.13
     build:
       context: .
       dockerfile: airflow.Dockerfile
@@ -17,8 +17,8 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
-      AIRFLOW_VAR_API_URL: dbt
-      AIRFLOW_VAR_LOAD_ENDPOINT: /load-dbt
+      AIRFLOW_VAR_API_URL: dbt:5000
+      AIRFLOW_VAR_LOAD_ENDPOINT: /load-source-data
       AIRFLOW_VAR_RUN_ENDPOINT: /run-dbt
       AIRFLOW_VAR_COMPILE_ENDPOINT: /compile-dbt
       AIRFLOW_WEB_USERNAME: ${AIRFLOW_USERNAME}

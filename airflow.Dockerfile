@@ -1,4 +1,4 @@
-ARG AIRFLOW_VERSION=slim-3.2.2-python3.14
+ARG AIRFLOW_VERSION=slim-3.2.2-python3.13
 
 FROM apache/airflow:${AIRFLOW_VERSION}
 

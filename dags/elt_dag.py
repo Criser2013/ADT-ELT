@@ -1,46 +1,40 @@
 from airflow.sdk import dag, task, Variable, get_current_context
 from datetime import datetime
-import requests
+from requests import post
 import logging
 
-# Variables recuperadas en tiempo de parseo (Opcional: considera moverlas dentro de las tareas)
-API_URL = Variable.get("api_url", default_var="http://dbt:5000")
-ENDPOINT_LOAD_DATA = Variable.get("load_endpoint", default_var="/load-dbt")
-ENDPOINT_COMPILE_MODEL = Variable.get("compile_endpoint", default_var="/compile-dbt")
-ENDPOINT_TRANSFORM_DATA = Variable.get("transform_endpoint", default_var="/run-dbt")
-
-default_params = {
-    "API_URL": API_URL,
-    "ENDPOINT_LOAD_DATA": ENDPOINT_LOAD_DATA,
-    "ENDPOINT_COMPILE_MODEL": ENDPOINT_COMPILE_MODEL,
-    "ENDPOINT_TRANSFORM_DATA": ENDPOINT_TRANSFORM_DATA,
-    "compile_dbt_models": True
-}
-
 @dag(
-    owner="Criser2013",
     dag_id="elt_pipeline_adt",
-    start_date=datetime(2026, 6, 3),
+    start_date=datetime(2026, 5, 3),
     description="ELT pipeline for training ML models to predict PE on patients.",
-    params=default_params,
     schedule=None, 
-    catchup=False
+    catchup=False,
+    params={
+        "compile_dbt_models": True,
+        "file_name": "Datos mismo archivo.xlsx",
+        "sheet_name": "Total",
+        "table_name": "raw_data"
+        }
 )
 def elt_pipeline():
 
     @task(task_id="extract_data")
     def extract():
-        context = get_current_context()
-        params = context["params"]
+        CONTEXT = get_current_context()
+        params = CONTEXT["params"]
+        API_URL = Variable.get("api_url")
+        ENDPOINT_LOAD_DATA = Variable.get("load_endpoint")
         
-        url = f"{params['API_URL']}{params['ENDPOINT_LOAD_DATA']}"
-        res = requests.post(url)
+        url = f"http://{API_URL}{ENDPOINT_LOAD_DATA}"
+        body = {"file_name": params["file_name"], "sheet_name": params["sheet_name"], "table_name": params["table_name"]}
+        logging.info(f"Sending request to {url} with body: {body}")
+        res = post(url, json=body)
         res_json = res.json()
 
         if res_json.get("success"):
-            logging.info(res_json.get("message"))
+            logging.info(res_json["message"])
         else:
-            logging.error(res_json.get("error"))
+            logging.error(res_json["error"])
             raise Exception("Failed to extract data")
 
     @task.branch(task_id="decide_compile")
@@ -51,32 +45,31 @@ def elt_pipeline():
 
     @task(task_id="compile_dbt_models")
     def compile_models():
-        context = get_current_context()
-        params = context["params"]
-        
-        url = f"{params['API_URL']}{params['ENDPOINT_COMPILE_MODEL']}"
-        res = requests.post(url)
+        API_URL = Variable.get("api_url")
+        ENDPOINT_COMPILE_MODEL = Variable.get("compile_endpoint")
+        url = f"http://{API_URL}{ENDPOINT_COMPILE_MODEL}"
+        res = post(url, headers={"Content-Type": "application/json"})
         res_json = res.json()
 
         if res_json.get("success"):
-            logging.info(res_json.get("message"))
+            logging.info(res_json["message"])
         else:
-            logging.error(res_json.get("error"))
+            logging.error(res_json["error"])
             raise Exception("Failed to compile dbt models")
 
-    @task(task_id="transform_data")
+    @task(task_id="transform_data", trigger_rule="one_success")
     def transform_data():
-        context = get_current_context()
-        params = context["params"]
+        API_URL = Variable.get("api_url")
+        ENDPOINT_TRANSFORM_DATA = Variable.get("run_endpoint")
         
-        url = f"{params['API_URL']}{params['ENDPOINT_TRANSFORM_DATA']}"
-        res = requests.post(url)
+        url = f"http://{API_URL}{ENDPOINT_TRANSFORM_DATA}"
+        res = post(url, headers={"Content-Type": "application/json"})
         res_json = res.json()
 
         if res_json.get("success"):
-            logging.info(res_json.get("message"))
+            logging.info(res_json["message"])
         else:
-            logging.error(res_json.get("error"))
+            logging.error(res_json["error"])
             raise Exception("Failed to transform data")
 
     extract_task = extract()
