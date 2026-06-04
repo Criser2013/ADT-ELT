@@ -5,7 +5,7 @@ import logging
 
 @dag(
     dag_id="elt_pipeline_adt",
-    start_date=datetime(2026, 5, 3),
+    start_date=datetime(2026, 6, 3),
     description="ELT pipeline for training ML models to predict PE on patients.",
     schedule=None, 
     catchup=False,
@@ -31,10 +31,12 @@ def elt_pipeline():
         res = post(url, json=body)
         res_json = res.json()
 
-        if res_json.get("success"):
-            logging.info(res_json["message"])
+        logging.info(res_json)
+
+        if res_json["success"]:
+            logging.info(res_json['message'])
         else:
-            logging.error(res_json["error"])
+            logging.error(f"{res_json['error']}")
             raise Exception("Failed to extract data")
 
     @task.branch(task_id="decide_compile")
@@ -51,10 +53,10 @@ def elt_pipeline():
         res = post(url, headers={"Content-Type": "application/json"})
         res_json = res.json()
 
-        if res_json.get("success"):
-            logging.info(res_json["message"])
+        if res_json["success"]:
+            logging.info(f"{res_json['message']}, output:\n{res_json['output']}")
         else:
-            logging.error(res_json["error"])
+            logging.error(f"{res_json['error']}, output:\n{res_json['output']}")
             raise Exception("Failed to compile dbt models")
 
     @task(task_id="transform_data", trigger_rule="one_success")
@@ -66,10 +68,10 @@ def elt_pipeline():
         res = post(url, headers={"Content-Type": "application/json"})
         res_json = res.json()
 
-        if res_json.get("success"):
-            logging.info(res_json["message"])
+        if res_json["success"]:
+            logging.info(f"{res_json['message']}, output:\n{res_json['output']}")
         else:
-            logging.error(res_json["error"])
+            logging.error(f"{res_json['error']}, output:\n{res_json['output']}")
             raise Exception("Failed to transform data")
 
     extract_task = extract()
