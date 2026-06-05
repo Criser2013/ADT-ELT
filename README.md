@@ -1,6 +1,6 @@
 # ELT for Pulmonary Embolism prediction
 
-This project recreates ETL process seen on [Pulmonary Embolism prediction project](https://github.com/Criser2013/Diagnostico-TEP/blob/main/preprocesamiento/Datos%20entrenamiento.ipynb) using a modern approach, passing from an imperative high level **Pandas** approach to **DBT** declarative strategy using *Medallion architecture*. 
+This project recreates ETL process seen on [Pulmonary Embolism prediction project](https://github.com/Criser2013/Diagnostico-TEP/blob/main/preprocesamiento/Datos%20entrenamiento.ipynb) using a modern stack, passing from an imperative high level **Pandas** approach to **DBT** declarative strategy using *Medallion architecture*. 
 Pipeline is almost the same but some fixes were added, for instance, outliners aren't removed and there are bound values to discretize quantitative variables.
 
 
@@ -9,10 +9,10 @@ Pipeline is almost the same but some fixes were added, for instance, outliners a
 - **`dbt`:** To develop *Medallion architecture* models.
 - **`airflow`:** Was used to orchestrate the entire pipeline.
 - **`flask`:** To develop a small backend sever with the purpose of expose *dbt* functionality like compile, test and run models. It runs in `dbt` container.
-- **`postgres`:** Selected data warehouse.
-- **`docker compose`:** To easily run each service and allow interactions among between them.
+- **`postgres`:** Selected data warehouse engine.
+- **`docker compose`:** To easily run each service and allow interactions among them.
 
-Lightweight images of **Postgres**, **Python** and **Airflow** were used to get maximum performance with abscence of unnecessary dependencies.
+Lightweight images of **Postgres**, **Python** and **Airflow** were used to achieve maximum performance with abscence of unnecessary dependencies.
 
 ## How to run?
 
@@ -22,13 +22,13 @@ Lightweight images of **Postgres**, **Python** and **Airflow** were used to get 
 docker compose up --build -d
 ```
 
-3. After the containers started and everyone show a `healthy` status, open your web browser an go to `http://localhost:8080`.
+3. After the containers started and everyone show a `healthy` status, open your web browser and go to `http://localhost:8080`.
 4. Sign in on `Airflow UI` using the credentials declared at `.env` file.
 5. Once logged, go to **DAGS** section and trigger the DAG called `elt_pipeline_adt`.
-6. Fill in the paramaters acording to your preferences and run it!
+6. Fill in the parameters according to your preferences and run it!
 
-Once DAG finished, ML data will be available at `<DB_SCHEMA>_gold` schema on `gold_ml_discretized` table. Also check `<DB_SCHEMA>_silver` and `<DB_SCHEMA>_bronze` schemas to watch the silver and bronze models on the database. 
-DBT logs are available on each task, to easily debug if would be necessary.
+Once DAG finished, ML data will be available at `<DB_SCHEMA>_gold` schema on `gold_ml_discretized` table. Also check `<DB_SCHEMA>_silver` and `<DB_SCHEMA>_bronze` schemas to watch silver and bronze models on the database. 
+DBT logs are available on each task, to easily debug if it would be necessary.
 
 ## Utilitary commands
 
